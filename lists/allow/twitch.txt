@@ -1,0 +1,2 @@
+api.sprig.com
+events.launchdarkly.com
