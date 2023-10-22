@@ -1,2 +1,17 @@
+# --------------------------------------------
+# Pi-hole public Twitch allowlist
+# --------------------------------------------
+# Last Update - Sun Oct 22 14:00:04 UTC 2023
+# --------------------------------------------
+# Total domains: 5
+# --------------------------------------------
+# Maintainer: Jordan Maxwell
+# --------------------------------------------
+# Open an issue for whitelisting.
+# --------------------------------------------
+
 api.sprig.com
 events.launchdarkly.com
+science-output.s3.amazonaws.com
+sb.scorecardresearch.com
+api.frankerfacez.com
