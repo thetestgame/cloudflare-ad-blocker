@@ -1,48 +1,68 @@
+# Name of the workflow
 name: Update Filter Lists
 
+# Define the events that trigger the workflow
 on:
+  # Schedule the workflow to run every Monday at 3:00 AM UTC
   schedule:
     - cron: "0 3 * * 1"
+  # Trigger the workflow when code is pushed to the main branch
   push:
     branches:
       - main
+  # Allow manual triggering of the workflow
   workflow_dispatch:
 
+# Define concurrency settings for the workflow
 concurrency:
+  # Group concurrent runs by the workflow and branch name
   group: ${{ github.workflow }}-${{ github.ref }}
+  # Cancel any in-progress runs when a new one is started
   cancel-in-progress: true
 
+# Define environment variables for the workflow
 env:
+  # Set the NODE_ENV environment variable to "production"
   NODE_ENV: production
 
+# Define the jobs that the workflow will run
 jobs:
+  # Define a job named "cgps"
   cgps:
+    # Run the job on an Ubuntu environment
     runs-on: ubuntu-latest
+    # Define the steps that the job will run
     steps:
+      # Checkout the code from the specified repository and branch
       - name: Checkout
         uses: actions/checkout@v4
         with:
           repository: "mrrfv/cloudflare-gateway-pihole-scripts"
           ref: "v1"
 
+      # Install the specified version of Node.js
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: "lts/*"
 
+      # Install the npm dependencies for the project
       - name: Install npm dependencies
         run: npm ci
 
+      # Download the allowlists from the specified URLs
       - name: Download allowlists
         run: npm run download:allowlist
         env:
           ALLOWLIST_URLS: ${{ vars.ALLOWLIST_URLS }}
 
+      # Download the blocklists from the specified URLs
       - name: Download blocklists
         run: npm run download:blocklist
         env:
           BLOCKLIST_URLS: ${{ vars.BLOCKLIST_URLS }}
 
+      # Delete the old rules and lists from Cloudflare
       - name: Delete old rules and lists
         run: npm run cloudflare-delete
         env:
@@ -52,6 +72,7 @@ jobs:
           CLOUDFLARE_LIST_ITEM_LIMIT: ${{ secrets.CLOUDFLARE_LIST_ITEM_LIMIT }}
           FAST_MODE: ${{ vars.FAST_MODE }}
 
+      # Create new rules and lists in Cloudflare
       - name: Create new rules and lists
         run: npm run cloudflare-create
         env:
@@ -61,9 +82,14 @@ jobs:
           CLOUDFLARE_LIST_ITEM_LIMIT: ${{ secrets.CLOUDFLARE_LIST_ITEM_LIMIT }}
           FAST_MODE: ${{ vars.FAST_MODE }}
 
+      # Send a ping request to the specified URL (if provided)
       - name: Send ping request
         if: env.PING_URL != ''
         run: |
           curl "${{ env.PING_URL }}"
         env:
           PING_URL: ${{ secrets.PING_URL }}
+
+      # Keep the workflow alive indefinitely      
+      - uses: gautamkrishnar/keepalive-workflow@v1
+
