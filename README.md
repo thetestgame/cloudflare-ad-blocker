@@ -1,7 +1,5 @@
 # Cloudflare Gateway Ad Blocker (CGAB)
 
-![Cloudflare Gateway Analytics screenshot](.github/images/gateway_analytics.png)
-
 [![Update Filter Lists](https://github.com/thetestgame/cloudflare-ad-blocker/actions/workflows/auto_update_github_action.yml/badge.svg?branch=main)](https://github.com/thetestgame/cloudflare-ad-blocker/actions/workflows/auto_update_github_action.yml)
 
 Cloudflare Gateway allows you to create custom rules to filter HTTP, DNS, and network traffic based on your firewall policies. This is a collection of scripts that can be used to get a similar experience as if you were using Pi-hole, but with Cloudflare Gateway - so no servers to maintain or need to buy a Raspberry Pi!
