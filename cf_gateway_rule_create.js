@@ -2,7 +2,7 @@ import { createZeroTrustRule, getZeroTrustLists } from "./lib/api.js";
 
 const { result: lists } = await getZeroTrustLists();
 const wirefilterExpression = lists.reduce((previous, current) => {
-  if (!current.name.startsWith("CGPS List")) return previous;
+  if (!current.name.startsWith("CGAB List")) return previous;
 
   return `${previous} any(dns.domains[*] in \$${current.id}) or `;
 }, "");

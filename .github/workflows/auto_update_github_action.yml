@@ -27,8 +27,8 @@ env:
 
 # Define the jobs that the workflow will run
 jobs:
-  # Define a job named "cgps"
-  cgps:
+  # Define a job named "CGAB"
+  CGAB:
     # Run the job on an Ubuntu environment
     runs-on: ubuntu-latest
     # Define the steps that the job will run

@@ -15,9 +15,9 @@ import { FAST_MODE } from "./lib/constants.js";
     return;
   }
 
-  const cgpsLists = lists.filter(({ name }) => name.startsWith("CGPS List"));
+  const CGABLists = lists.filter(({ name }) => name.startsWith("CGAB List"));
 
-  if (!cgpsLists.length) {
+  if (!CGABLists.length) {
     console.warn(
       "No lists with matching name found - this is not an issue if you haven't created any filter lists before. Exiting."
     );
@@ -25,13 +25,13 @@ import { FAST_MODE } from "./lib/constants.js";
   }
 
   console.log(
-    `Got ${lists.length} lists, ${cgpsLists.length} of which are CGPS lists that will be deleted.`
+    `Got ${lists.length} lists, ${CGABLists.length} of which are CGAB lists that will be deleted.`
   );
 
   if (FAST_MODE) {
-    await deleteZeroTrustListsAtOnce(cgpsLists);
+    await deleteZeroTrustListsAtOnce(CGABLists);
     return;
   }
 
-  await deleteZeroTrustListsOneByOne(cgpsLists);
+  await deleteZeroTrustListsOneByOne(CGABLists);
 })();
